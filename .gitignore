@@ -1,3 +1,4 @@
 /config/*
 !/config/*.yaml
 !/config/rest
+/config/secrets.yaml
