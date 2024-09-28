@@ -12,6 +12,6 @@ services:
       - .env
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.homeassistant.rule=Host(`homeassistant.lenders.dev`)"
-      - "traefik.http.routers.homeassistant.tls=true"
-      - "traefik.http.routers.homeassistant.tls.certresolver=myresolver"
+      - "traefik.http.routers.bijgaardehub.rule=Host(`bijgaardehub.lenders.dev`)"
+      - "traefik.http.routers.bijgaardehub.tls=true"
+      - "traefik.http.routers.bijgaardehub.tls.certresolver=myresolver"
