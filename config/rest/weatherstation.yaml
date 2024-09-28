@@ -1,0 +1,73 @@
+- method: GET
+  resource: http://172.17.0.1:5000/state
+  scan_interval: 60
+  sensor:
+    - name: Weatherstation - Last update
+      unique_id: weatherstation.last_update
+      value_template: "{{ as_datetime(value_json.timestamp, '') }}"
+
+    - name: Weatherstation - Status
+      unique_id: weatherstation.status.status
+      value_template: "{{ value_json.status.status }}"
+    - name: Weatherstation - Status - Last healthcheck
+      unique_id: weatherstation.status.last_healthcheck
+      value_template: "{{ as_datetime(value_json.status.last_healthcheck, '') }}"
+    - name: Weatherstation - Status - Last high wind
+      unique_id: weatherstation.status.last_high_wind
+      value_template: "{{ as_datetime(value_json.status.last_high_wind, '') }}"
+    - name: Weatherstation - Status - Last manual input
+      unique_id: weatherstation.status.last_manual_input
+      value_template: "{{ as_datetime(value_json.status.last_manual_input, '') }}"
+
+    - name: Weatherstation - Roof north - Position
+      unique_id: weatherstation.roofs.north.position
+      value_template: "{{ value_json.roofs.north.position * 100 }}"
+      unit_of_measurement: "%"
+    - name: Weatherstation - Roof north - Target
+      unique_id: weatherstation.roofs.north.target
+      value_template: "{{ value_json.roofs.north.target * 100 }}"
+      unit_of_measurement: "%"
+    - name: Weatherstation - Roof north - Last verification
+      unique_id: weatherstation.roofs.north.last_verification
+      value_template: "{{ as_datetime(value_json.roofs.north.last_verification, '') }}"
+
+    - name: Weatherstation - Roof south - Position
+      unique_id: weatherstation.roofs.south.position
+      value_template: "{{ value_json.roofs.south.position * 100 }}"
+      unit_of_measurement: "%"
+    - name: Weatherstation - Roof south - Target
+      unique_id: weatherstation.roofs.south.target
+      value_template: "{{ value_json.roofs.south.target * 100 }}"
+      unit_of_measurement: "%"
+    - name: Weatherstation - Roof south - Last verification
+      unique_id: weatherstation.roofs.south.last_verification
+      value_template: "{{ as_datetime(value_json.roofs.south.last_verification, '') }}"
+
+    - name: Weatherstation - Outdoor - Data source
+      unique_id: weatherstation.weather_report.outdoor.data_source
+      value_template: "{{ value_json.weather_report.outdoor.data_source }}"
+    - name: Weatherstation - Outdoor - Temperature
+      unique_id: weatherstation.weather_report.outdoor.temperature
+      value_template: "{{ value_json.weather_report.outdoor.temperature }}"
+      unit_of_measurement: ˚C
+    - name: Weatherstation - Outdoor - Rain event
+      unique_id: weatherstation.weather_report.outdoor.rain_event
+      value_template: "{{ value_json.weather_report.outdoor.rain_event }}"
+      unit_of_measurement: mm/h
+    - name: Weatherstation - Outdoor - Wind gust
+      unique_id: weatherstation.weather_report.outdoor.wind_gust
+      value_template: "{{ value_json.weather_report.outdoor.wind_gust }}"
+      unit_of_measurement: km/h
+    - name: Weatherstation - Outdoor - Solar radiation
+      unique_id: weatherstation.weather_report.outdoor.solar_radiation
+      value_template: "{{ value_json.weather_report.outdoor.solar_radiation }}"
+      unit_of_measurement: W/m²
+
+    - name: Weatherstation - Indoor - Data source
+      unique_id: weatherstation.weather_report.indoor.data_source
+      value_template: "{{ value_json.weather_report.indoor.data_source }}"
+    - name: Weatherstation - Indoor - Temperature
+      unique_id: weatherstation.weather_report.indoor.temperature
+      value_template: "{{ value_json.weather_report.indoor.temperature }}"
+      unit_of_measurement: ˚C
+

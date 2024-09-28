@@ -1,0 +1,12 @@
+services:
+  home-assistant:
+    image: linuxserver/homeassistant:latest
+    restart: unless-stopped
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - ./config:/config
+    ports:
+      - "8123:8123"
+    env_file:
+      - .env
