@@ -1,0 +1,10 @@
+[Unit]
+Description=Open a VPN connection to <name>
+
+[Service]
+ExecStart=openvpn --config /etc/openvpn/profiles/<name>.ovpn --data-ciphers AES-256-GCM:AES-256-CBC:AES-128-GCM:CHACHA20-POLY1305
+Restart=always
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target
