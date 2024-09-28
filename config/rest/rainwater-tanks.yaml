@@ -1,0 +1,30 @@
+- method: GET
+  resource: https://qbuscontrol.com/api/groupparents/dashboard/0
+  headers:
+    Authorization: !secret qbus_authorization
+  scan_interval: 60
+  sensor:
+    - name: Rainwater tanks - Spore
+      unique_id: rainwater_tanks.spore
+      value_template: "{{ value_json[0].Groups[0].Outputs[0].Status.currentValue }}"
+      unit_of_measurement: cm
+    - name: Rainwater tanks - Wijgaard
+      unique_id: rainwater_tanks.wijgaard
+      value_template: "{{ value_json[0].Groups[0].Outputs[1].Status.currentValue }}"
+      unit_of_measurement: cm
+    - name: Rainwater tanks - Biotope
+      unique_id: rainwater_tanks.biotope
+      value_template: "{{ value_json[0].Groups[0].Outputs[2].Status.currentValue }}"
+      unit_of_measurement: cm
+    - name: Rainwater tanks - Verzamelput
+      unique_id: rainwater_tanks.verzamelput
+      value_template: "{{ value_json[0].Groups[0].Outputs[3].Status.currentValue }}"
+      unit_of_measurement: cm
+    - name: Rainwater tanks - Hubo
+      unique_id: rainwater_tanks.hubo
+      value_template: "{{ value_json[0].Groups[0].Outputs[4].Status.currentValue }}"
+      unit_of_measurement: cm
+    - name: Rainwater tanks - Controle
+      unique_id: rainwater_tanks.controle
+      value_template: "{{ value_json[0].Groups[0].Outputs[5].Status.currentValue }}"
+      unit_of_measurement: cm
