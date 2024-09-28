@@ -1,5 +1,5 @@
 - method: GET
-  resource: http://172.17.0.1:5000/state
+  resource: http://10.9.10.5:5000/state
   scan_interval: 60
   sensor:
     - name: Weatherstation - Last update
