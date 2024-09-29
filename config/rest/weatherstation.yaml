@@ -104,7 +104,7 @@
       unit_of_measurement: °C
 
   binary_sensor:
-    - name: Weatherstation - Problem
+    - name: Weatherstation - Status - Problem
       unique_id: weatherstation.status.problem
       value_template: "{{ value_json.status.status != 'OK' }}"
       device_class: problem

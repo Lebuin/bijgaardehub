@@ -81,19 +81,19 @@
     - name: Rainwater tanks - Spore - Valve
       unique_id: rainwater_tanks.spore.valve
       value_template: "{{ value_json[0].Groups[1].Outputs[0].Status.On }}"
-      device_class: power
+      device_class: opening
     - name: Rainwater tanks - Wijgaard - Valve
       unique_id: rainwater_tanks.wijgaard.valve
       value_template: "{{ value_json[0].Groups[1].Outputs[1].Status.On }}"
-      device_class: power
+      device_class: opening
     - name: Rainwater tanks - Biotope - Valve
       unique_id: rainwater_tanks.biotope.valve
       value_template: "{{ value_json[0].Groups[1].Outputs[2].Status.On }}"
-      device_class: power
+      device_class: opening
     - name: Rainwater tanks - Wadi - Valve
       unique_id: rainwater_tanks.wadi.valve
       value_template: "{{ value_json[0].Groups[1].Outputs[3].Status.On }}"
-      device_class: power
+      device_class: opening
     - name: Rainwater tanks - Baertsoen-Buysse - Pump
       unique_id: rainwater_tanks.spore.pump
       value_template: "{{ value_json[0].Groups[1].Outputs[4].Status.On }}"
