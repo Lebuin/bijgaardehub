@@ -3,6 +3,9 @@ This project is designed to be publicly exposed through [Traefik](https://traefi
 
 # Installation
 
+* Create a .env file that sets the UID and GID environment variables.
+* Run `docker compose up -d`
+
 ## VPN services
 
 Home Assistant will need to connect to devices that are not publicly accessible, but are accessible through a VPN. For each of the required VPN connections:

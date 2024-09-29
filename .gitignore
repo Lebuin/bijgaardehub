@@ -1,3 +1,5 @@
+.env
+
 /config/*
 !/config/*.yaml
 !/config/rest
