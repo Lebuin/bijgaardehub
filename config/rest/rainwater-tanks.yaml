@@ -4,27 +4,101 @@
     Authorization: !secret qbus_authorization
   scan_interval: 60
   sensor:
-    - name: Rainwater tanks - Spore
-      unique_id: rainwater_tanks.spore
+    - name: Rainwater tanks - Spore - Level
+      unique_id: rainwater_tanks.spore.level
       value_template: "{{ value_json[0].Groups[0].Outputs[0].Status.currentValue }}"
       unit_of_measurement: cm
-    - name: Rainwater tanks - Wijgaard
-      unique_id: rainwater_tanks.wijgaard
+    - name: Rainwater tanks - Spore - Relative level
+      unique_id: rainwater_tanks.spore.relative
+      value_template: "{{ (value_json[0].Groups[0].Outputs[0].Status.currentValue / value_json[0].Groups[0].Outputs[0].MetaData.currentValue.max * 100) | round }}"
+      unit_of_measurement: "%"
+    - name: Rainwater tanks - Spore - Volume
+      unique_id: rainwater_tanks.spore.volume
+      value_template: "{{ (value_json[0].Groups[0].Outputs[0].Status.currentValue / value_json[0].Groups[0].Outputs[0].MetaData.currentValue.max * 10e3) | round }}"
+      device_class: volume_storage
+      unit_of_measurement: L
+    - name: Rainwater tanks - Spore - Max
+      unique_id: rainwater_tanks.spore.max
+      value_template: "{{ value_json[0].Groups[0].Outputs[0].MetaData.currentValue.max }}"
+      unit_of_measurement: cm
+
+
+    - name: Rainwater tanks - Wijgaard - Level
+      unique_id: rainwater_tanks.wijgaard.level
       value_template: "{{ value_json[0].Groups[0].Outputs[1].Status.currentValue }}"
       unit_of_measurement: cm
-    - name: Rainwater tanks - Biotope
-      unique_id: rainwater_tanks.biotope
+    - name: Rainwater tanks - Wijgaard - Relative level
+      unique_id: rainwater_tanks.wijgaard.relative
+      value_template: "{{ (value_json[0].Groups[0].Outputs[1].Status.currentValue / value_json[0].Groups[0].Outputs[1].MetaData.currentValue.max * 100) | round }}"
+      unit_of_measurement: "%"
+    - name: Rainwater tanks - Wijgaard - Volume
+      unique_id: rainwater_tanks.wijgaard.volume
+      value_template: "{{ (value_json[0].Groups[0].Outputs[1].Status.currentValue / value_json[0].Groups[0].Outputs[1].MetaData.currentValue.max * 20e3) | round }}"
+      device_class: volume_storage
+      unit_of_measurement: L
+    - name: Rainwater tanks - Wijgaard - Max
+      unique_id: rainwater_tanks.wijgaard.max
+      value_template: "{{ value_json[0].Groups[0].Outputs[1].MetaData.currentValue.max }}"
+      unit_of_measurement: cm
+
+    - name: Rainwater tanks - Biotope - Level
+      unique_id: rainwater_tanks.biotope.level
       value_template: "{{ value_json[0].Groups[0].Outputs[2].Status.currentValue }}"
       unit_of_measurement: cm
-    - name: Rainwater tanks - Verzamelput
-      unique_id: rainwater_tanks.verzamelput
-      value_template: "{{ value_json[0].Groups[0].Outputs[3].Status.currentValue }}"
+    - name: Rainwater tanks - Biotope - Relative level
+      unique_id: rainwater_tanks.biotope.relative
+      value_template: "{{ (value_json[0].Groups[0].Outputs[2].Status.currentValue / value_json[0].Groups[0].Outputs[2].MetaData.currentValue.max * 100) | round }}"
+      unit_of_measurement: "%"
+    - name: Rainwater tanks - Biotope - Volume
+      unique_id: rainwater_tanks.biotope.volume
+      value_template: "{{ (value_json[0].Groups[0].Outputs[2].Status.currentValue / value_json[0].Groups[0].Outputs[2].MetaData.currentValue.max * 20e3) | round }}"
+      device_class: volume_storage
+      unit_of_measurement: L
+    - name: Rainwater tanks - Biotope - Max
+      unique_id: rainwater_tanks.biotope.max
+      value_template: "{{ value_json[0].Groups[0].Outputs[2].MetaData.currentValue.max }}"
       unit_of_measurement: cm
-    - name: Rainwater tanks - Hubo
-      unique_id: rainwater_tanks.hubo
+
+    - name: Rainwater tanks - Hubo - Level
+      unique_id: rainwater_tanks.hubo.level
       value_template: "{{ value_json[0].Groups[0].Outputs[4].Status.currentValue }}"
       unit_of_measurement: cm
-    - name: Rainwater tanks - Controle
-      unique_id: rainwater_tanks.controle
-      value_template: "{{ value_json[0].Groups[0].Outputs[5].Status.currentValue }}"
+    - name: Rainwater tanks - Hubo - Relative level
+      unique_id: rainwater_tanks.hubo.relative
+      value_template: "{{ (value_json[0].Groups[0].Outputs[4].Status.currentValue / value_json[0].Groups[0].Outputs[4].MetaData.currentValue.max * 100) | round }}"
+      unit_of_measurement: "%"
+    - name: Rainwater tanks - Hubo - Volume
+      unique_id: rainwater_tanks.hubo.volume
+      value_template: "{{ (value_json[0].Groups[0].Outputs[4].Status.currentValue / value_json[0].Groups[0].Outputs[4].MetaData.currentValue.max * 150e3) | round }}"
+      device_class: volume_storage
+      unit_of_measurement: L
+    - name: Rainwater tanks - Hubo - Max
+      unique_id: rainwater_tanks.hubo.max
+      value_template: "{{ value_json[0].Groups[0].Outputs[4].MetaData.currentValue.max }}"
       unit_of_measurement: cm
+
+  binary_sensor:
+    - name: Rainwater tanks - Spore - Valve
+      unique_id: rainwater_tanks.spore.valve
+      value_template: "{{ value_json[0].Groups[1].Outputs[0].Status.On }}"
+      device_class: power
+    - name: Rainwater tanks - Wijgaard - Valve
+      unique_id: rainwater_tanks.wijgaard.valve
+      value_template: "{{ value_json[0].Groups[1].Outputs[1].Status.On }}"
+      device_class: power
+    - name: Rainwater tanks - Biotope - Valve
+      unique_id: rainwater_tanks.biotope.valve
+      value_template: "{{ value_json[0].Groups[1].Outputs[2].Status.On }}"
+      device_class: power
+    - name: Rainwater tanks - Wadi - Valve
+      unique_id: rainwater_tanks.wadi.valve
+      value_template: "{{ value_json[0].Groups[1].Outputs[3].Status.On }}"
+      device_class: power
+    - name: Rainwater tanks - Baertsoen-Buysse - Pump
+      unique_id: rainwater_tanks.spore.pump
+      value_template: "{{ value_json[0].Groups[1].Outputs[4].Status.On }}"
+      device_class: power
+    - name: Rainwater tanks - Automation
+      unique_id: rainwater_tanks.automation.status
+      value_template: "{{ value_json[0].Groups[1].Outputs[5].Status.On }}"
+      device_class: power

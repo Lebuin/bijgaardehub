@@ -5,6 +5,7 @@
     - name: Weatherstation - Last update
       unique_id: weatherstation.last_update
       value_template: "{{ as_datetime(value_json.timestamp, '') }}"
+      device_class: timestamp
 
     - name: Weatherstation - Status
       unique_id: weatherstation.status.status
@@ -12,12 +13,15 @@
     - name: Weatherstation - Status - Last healthcheck
       unique_id: weatherstation.status.last_healthcheck
       value_template: "{{ as_datetime(value_json.status.last_healthcheck, '') }}"
+      device_class: timestamp
     - name: Weatherstation - Status - Last high wind
       unique_id: weatherstation.status.last_high_wind
       value_template: "{{ as_datetime(value_json.status.last_high_wind, '') }}"
+      device_class: timestamp
     - name: Weatherstation - Status - Last manual input
       unique_id: weatherstation.status.last_manual_input
       value_template: "{{ as_datetime(value_json.status.last_manual_input, '') }}"
+      device_class: timestamp
 
     - name: Weatherstation - Roof north - Position
       unique_id: weatherstation.roofs.north.position
@@ -30,6 +34,7 @@
     - name: Weatherstation - Roof north - Last verification
       unique_id: weatherstation.roofs.north.last_verification
       value_template: "{{ as_datetime(value_json.roofs.north.last_verification, '') }}"
+      device_class: timestamp
 
     - name: Weatherstation - Roof south - Position
       unique_id: weatherstation.roofs.south.position
@@ -42,6 +47,7 @@
     - name: Weatherstation - Roof south - Last verification
       unique_id: weatherstation.roofs.south.last_verification
       value_template: "{{ as_datetime(value_json.roofs.south.last_verification, '') }}"
+      device_class: timestamp
 
     - name: Weatherstation - Outdoor - Data source
       unique_id: weatherstation.weather_report.outdoor.data_source
@@ -49,18 +55,22 @@
     - name: Weatherstation - Outdoor - Temperature
       unique_id: weatherstation.weather_report.outdoor.temperature
       value_template: "{{ value_json.weather_report.outdoor.temperature }}"
-      unit_of_measurement: ˚C
+      device_class: temperature
+      unit_of_measurement: °C
     - name: Weatherstation - Outdoor - Rain event
       unique_id: weatherstation.weather_report.outdoor.rain_event
       value_template: "{{ value_json.weather_report.outdoor.rain_event }}"
+      device_class: precipitation_intensity
       unit_of_measurement: mm/h
     - name: Weatherstation - Outdoor - Wind gust
       unique_id: weatherstation.weather_report.outdoor.wind_gust
       value_template: "{{ value_json.weather_report.outdoor.wind_gust }}"
+      device_class: wind_speed
       unit_of_measurement: km/h
     - name: Weatherstation - Outdoor - Solar radiation
       unique_id: weatherstation.weather_report.outdoor.solar_radiation
       value_template: "{{ value_json.weather_report.outdoor.solar_radiation }}"
+      device_class: irradiance
       unit_of_measurement: W/m²
 
     - name: Weatherstation - Indoor - Data source
@@ -69,5 +79,12 @@
     - name: Weatherstation - Indoor - Temperature
       unique_id: weatherstation.weather_report.indoor.temperature
       value_template: "{{ value_json.weather_report.indoor.temperature }}"
-      unit_of_measurement: ˚C
+      device_class: temperature
+      unit_of_measurement: °C
+
+  binary_sensor:
+    - name: Weatherstation - Problem
+      unique_id: weatherstation.status.problem
+      value_template: "{{ value_json.status.status != 'OK' }}"
+      device_class: problem
 
