@@ -23,6 +23,27 @@
       value_template: "{{ as_datetime(value_json.status.last_manual_input, '') }}"
       device_class: timestamp
 
+    - name: Weatherstation - Parameters - Min temperature
+      unique_id: weatherstation.parameters.min_temperature
+      value_template: "{{ value_json.parameters.min_temperature }}"
+      device_class: temperature
+      unit_of_measurement: °C
+    - name: Weatherstation - Parameters - Max temperature
+      unique_id: weatherstation.parameters.max_temperature
+      value_template: "{{ value_json.parameters.max_temperature }}"
+      device_class: temperature
+      unit_of_measurement: °C
+    - name: Weatherstation - Parameters - High wind
+      unique_id: weatherstation.parameters.high_wind
+      value_template: "{{ value_json.parameters.high_wind }}"
+      device_class: wind_speed
+      unit_of_measurement: km/h
+    - name: Weatherstation - Parameters - Rain threshold
+      unique_id: weatherstation.parameters.rain_threshold
+      value_template: "{{ value_json.parameters.rain_threshold }}"
+      device_class: precipitation_intensity
+      unit_of_measurement: mm/h
+
     - name: Weatherstation - Roof north - Position
       unique_id: weatherstation.roofs.north.position
       value_template: "{{ value_json.roofs.north.position * 100 }}"
