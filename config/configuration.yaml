@@ -16,3 +16,21 @@ script: !include scripts.yaml
 scene: !include scenes.yaml
 
 rest: !include_dir_merge_list rest
+
+desigo:
+  url: https://desigo-scraper.lenders.dev/data
+  username: !secret desigo_username
+  password: !secret desigo_password
+  data_series:
+    - key: biotope_aanvoer_primair
+      name: Biotope - Warmtepomp aanvoertemperatuur primair
+      series_group: Biotope
+      series_name: Verwarming'Warmtepomp'Aanv.temp.primair
+      device_class: temperature
+      unit_of_measurement: °C
+    - key: biotope_retour_primair
+      name: Biotope - Warmtepomp retourtemperatuur primair
+      series_group: Biotope
+      series_name: Verwarming'Warmtepomp'Primaire retourtemp.
+      device_class: temperature
+      unit_of_measurement: °C

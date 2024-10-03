@@ -1,6 +1,9 @@
 .env
 
 /config/*
+
 !/config/*.yaml
-!/config/rest
 /config/secrets.yaml
+
+!/config/rest
+!/config/custom_components
