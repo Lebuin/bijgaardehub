@@ -7,3 +7,6 @@
 
 !/config/rest
 !/config/custom_components
+
+/config/custom_components/*
+!/config/custom_components/desigo
