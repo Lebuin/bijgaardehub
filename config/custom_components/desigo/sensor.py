@@ -242,7 +242,4 @@ class DesigoDataUpdateCoordinator(DataUpdateCoordinator[list[t.DataSeries]]):
                 for item in grouped_data
             ]
 
-            # async_add_external_statistics(self.hass, metadata, statistics)
-            logger.warning(metadata['statistic_id'])
-            logger.warning(statistics)
             _async_import_statistics(self.hass, metadata, statistics)
