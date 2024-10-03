@@ -109,7 +109,7 @@ class DesigoDataUpdateCoordinator(DataUpdateCoordinator[list[t.DataSeries]]):
             hass,
             logger,
             name=f'Desigo',
-            update_interval=timedelta(seconds=10)
+            update_interval=timedelta(hours=1)
         )
 
         self.async_client = create_async_httpx_client(self.hass)
@@ -125,7 +125,6 @@ class DesigoDataUpdateCoordinator(DataUpdateCoordinator[list[t.DataSeries]]):
 
 
     def get_native_value(self, entity: DesigoCoordinatorEntity) -> StateType:
-        logger.warning
         try:
             data_series = self.get_data_series(entity)
             return data_series.data[-1][1]
