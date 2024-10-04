@@ -2,110 +2,109 @@
   resource: http://10.9.10.5:5000/state
   scan_interval: 60
   sensor:
-    - name: Weatherstation - Last update
+    - name: Greenhouse - Last update
       unique_id: weatherstation.last_update
       value_template: "{{ as_datetime(value_json.timestamp, '') }}"
       device_class: timestamp
 
-    - name: Weatherstation - Status
+    - name: Greenhouse - Status
       unique_id: weatherstation.status.status
       value_template: "{{ value_json.status.status }}"
-    - name: Weatherstation - Status - Last healthcheck
+    - name: Greenhouse - Status - Last healthcheck
       unique_id: weatherstation.status.last_healthcheck
       value_template: "{{ as_datetime(value_json.status.last_healthcheck, '') }}"
       device_class: timestamp
-    - name: Weatherstation - Status - Last high wind
+    - name: Greenhouse - Status - Last high wind
       unique_id: weatherstation.status.last_high_wind
       value_template: "{{ as_datetime(value_json.status.last_high_wind, '') }}"
       device_class: timestamp
-    - name: Weatherstation - Status - Last manual input
+    - name: Greenhouse - Status - Last manual input
       unique_id: weatherstation.status.last_manual_input
       value_template: "{{ as_datetime(value_json.status.last_manual_input, '') }}"
       device_class: timestamp
 
-    - name: Weatherstation - Parameters - Min temperature
+    - name: Greenhouse - Parameters - Min temperature
       unique_id: weatherstation.parameters.min_temperature
       value_template: "{{ value_json.parameters.min_temperature }}"
       device_class: temperature
       unit_of_measurement: °C
-    - name: Weatherstation - Parameters - Max temperature
+    - name: Greenhouse - Parameters - Max temperature
       unique_id: weatherstation.parameters.max_temperature
       value_template: "{{ value_json.parameters.max_temperature }}"
       device_class: temperature
       unit_of_measurement: °C
-    - name: Weatherstation - Parameters - High wind
+    - name: Greenhouse - Parameters - High wind
       unique_id: weatherstation.parameters.high_wind
       value_template: "{{ value_json.parameters.high_wind }}"
       device_class: wind_speed
       unit_of_measurement: km/h
-    - name: Weatherstation - Parameters - Rain threshold
+    - name: Greenhouse - Parameters - Rain threshold
       unique_id: weatherstation.parameters.rain_threshold
       value_template: "{{ value_json.parameters.rain_threshold }}"
       device_class: precipitation_intensity
       unit_of_measurement: mm/h
 
-    - name: Weatherstation - Roof north - Position
+    - name: Greenhouse - Roof north - Position
       unique_id: weatherstation.roofs.north.position
       value_template: "{{ value_json.roofs.north.position * 100 }}"
       unit_of_measurement: "%"
-    - name: Weatherstation - Roof north - Target
+    - name: Greenhouse - Roof north - Target
       unique_id: weatherstation.roofs.north.target
       value_template: "{{ value_json.roofs.north.target * 100 }}"
       unit_of_measurement: "%"
-    - name: Weatherstation - Roof north - Last verification
+    - name: Greenhouse - Roof north - Last verification
       unique_id: weatherstation.roofs.north.last_verification
       value_template: "{{ as_datetime(value_json.roofs.north.last_verification, '') }}"
       device_class: timestamp
 
-    - name: Weatherstation - Roof south - Position
+    - name: Greenhouse - Roof south - Position
       unique_id: weatherstation.roofs.south.position
       value_template: "{{ value_json.roofs.south.position * 100 }}"
       unit_of_measurement: "%"
-    - name: Weatherstation - Roof south - Target
+    - name: Greenhouse - Roof south - Target
       unique_id: weatherstation.roofs.south.target
       value_template: "{{ value_json.roofs.south.target * 100 }}"
       unit_of_measurement: "%"
-    - name: Weatherstation - Roof south - Last verification
+    - name: Greenhouse - Roof south - Last verification
       unique_id: weatherstation.roofs.south.last_verification
       value_template: "{{ as_datetime(value_json.roofs.south.last_verification, '') }}"
       device_class: timestamp
 
-    - name: Weatherstation - Outdoor - Data source
+    - name: Greenhouse - Outdoor - Data source
       unique_id: weatherstation.weather_report.outdoor.data_source
       value_template: "{{ value_json.weather_report.outdoor.data_source }}"
-    - name: Weatherstation - Outdoor - Temperature
+    - name: Greenhouse - Outdoor - Temperature
       unique_id: weatherstation.weather_report.outdoor.temperature
       value_template: "{{ value_json.weather_report.outdoor.temperature }}"
       device_class: temperature
       unit_of_measurement: °C
-    - name: Weatherstation - Outdoor - Rain event
+    - name: Greenhouse - Outdoor - Rain event
       unique_id: weatherstation.weather_report.outdoor.rain_event
       value_template: "{{ value_json.weather_report.outdoor.rain_event }}"
       device_class: precipitation_intensity
       unit_of_measurement: mm/h
-    - name: Weatherstation - Outdoor - Wind gust
+    - name: Greenhouse - Outdoor - Wind gust
       unique_id: weatherstation.weather_report.outdoor.wind_gust
       value_template: "{{ value_json.weather_report.outdoor.wind_gust }}"
       device_class: wind_speed
       unit_of_measurement: km/h
-    - name: Weatherstation - Outdoor - Solar radiation
+    - name: Greenhouse - Outdoor - Solar radiation
       unique_id: weatherstation.weather_report.outdoor.solar_radiation
       value_template: "{{ value_json.weather_report.outdoor.solar_radiation }}"
       device_class: irradiance
       unit_of_measurement: W/m²
 
-    - name: Weatherstation - Indoor - Data source
+    - name: Greenhouse - Indoor - Data source
       unique_id: weatherstation.weather_report.indoor.data_source
       value_template: "{{ value_json.weather_report.indoor.data_source }}"
-    - name: Weatherstation - Indoor - Temperature
+    - name: Greenhouse - Indoor - Temperature
       unique_id: weatherstation.weather_report.indoor.temperature
       value_template: "{{ value_json.weather_report.indoor.temperature }}"
       device_class: temperature
       unit_of_measurement: °C
 
   binary_sensor:
-    - name: Weatherstation - Status - Problem
+    - name: Greenhouse - Status - Problem
       unique_id: weatherstation.status.problem
       value_template: "{{ value_json.status.status != 'OK' }}"
       device_class: problem
-
