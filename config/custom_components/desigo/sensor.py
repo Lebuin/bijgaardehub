@@ -155,7 +155,7 @@ class DesigoDataUpdateCoordinator(DataUpdateCoordinator[list[t.DataSeries]]):
                 'start': '2000-01-01'
             })
 
-        self.logger.warning(f'Fetch history from {url}')
+        self.logger.info(f'Fetch history from {url}')
         auth = httpx.BasicAuth(self.username, self.password)
         response = await self.async_client.request('GET', url, auth=auth)
         raw_data = response.json()
