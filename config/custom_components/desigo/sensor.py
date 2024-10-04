@@ -105,7 +105,7 @@ class DesigoDataUpdateCoordinator(DataUpdateCoordinator[list[t.DataSeries]]):
             hass,
             logger,
             name=f'Desigo',
-            update_interval=timedelta(minutes=1)
+            update_interval=timedelta(hours=1)
         )
 
         self.async_client = create_async_httpx_client(self.hass)
