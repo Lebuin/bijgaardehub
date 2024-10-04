@@ -58,6 +58,8 @@ async def async_setup_platform(
 class DesigoCoordinatorEntity(SensorEntity, CoordinatorEntity['DesigoDataUpdateCoordinator']):  # type: ignore
     data_series_config: t.DataSeriesConfig
 
+    first_fetch_complete=False
+
     def __init__(
         self,
         coordinator: 'DesigoDataUpdateCoordinator',
@@ -90,8 +92,6 @@ class DesigoDataUpdateCoordinator(DataUpdateCoordinator[list[t.DataSeries]]):
     url: str
     username: str
     password: str
-
-    first_fetch_complete=False
 
 
     def __init__(
@@ -150,19 +150,18 @@ class DesigoDataUpdateCoordinator(DataUpdateCoordinator[list[t.DataSeries]]):
         # On startup we fetch the full history of the data. On subsequent runs we only fetch the
         # last few days (the server default).
         url = self.url
-        if not self.first_fetch_complete:
+        if not all(entity.first_fetch_complete for entity in self.entities):
             url = util.add_query_to_url(url, {
                 'start': '2000-01-01'
             })
 
+        self.logger.warning(f'Fetch history from {url}')
         auth = httpx.BasicAuth(self.username, self.password)
         response = await self.async_client.request('GET', url, auth=auth)
         raw_data = response.json()
         data = self.parse_data(raw_data)
 
         await self._insert_statistics(data)
-
-        self.first_fetch_complete = True
 
         return data
 
@@ -243,6 +242,8 @@ class DesigoDataUpdateCoordinator(DataUpdateCoordinator[list[t.DataSeries]]):
             ]
 
             _async_import_statistics(self.hass, metadata, statistics)
+
+            entity.first_fetch_complete = True
 
 
     def create_statistic_data(self, data_point: t.GroupedDataPoint, has_sum: bool) -> StatisticData:
