@@ -1,0 +1,32 @@
+url: https://desigo-scraper.lenders.dev/data
+username: !secret desigo_username
+password: !secret desigo_password
+data_series:
+  - key: biotope_aanvoer_primair
+    name: Desigo - Biotope - Aanvoertemperatuur primair
+    series_group: Biotope
+    series_name: Verwarming'Warmtepomp'Aanv.temp.primair
+    device_class: temperature
+    state_class: measurement
+    unit_of_measurement: °C
+  - key: biotope_retour_primair
+    name: Desigo - Biotope - Retourtemperatuur primair
+    series_group: Biotope
+    series_name: Verwarming'Warmtepomp'Primaire retourtemp.
+    device_class: temperature
+    state_class: measurement
+    unit_of_measurement: °C
+  - key: biotope_heat_energy_e1
+    name: Desigo - Biotope - Heat energy E1
+    series_group: Biotope
+    series_name: Verwarming'Tellers e.d.'Kampstrup Multical 430'AI5'Heat energy E1
+    device_class: energy
+    state_class: total_increasing
+    unit_of_measurement: kWh
+  - key: biotope_cooling_energy_e3
+    name: Desigo - Biotope - Cooling energy E3
+    series_group: Biotope
+    series_name: Verwarming'Tellers e.d.'Kampstrup Multical 430'AI6'Cooling Energy E3
+    device_class: energy
+    state_class: total_increasing
+    unit_of_measurement: kWh

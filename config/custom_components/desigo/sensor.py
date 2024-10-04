@@ -1,14 +1,11 @@
 import logging
 from datetime import datetime, timedelta
-from typing import TypedDict
 
 import httpx
-from homeassistant.components.recorder import get_instance
 from homeassistant.components.recorder.models import (StatisticData,
                                                       StatisticMetaData)
-from homeassistant.components.recorder.statistics import (
-    _async_import_statistics, async_add_external_statistics,
-    get_last_statistics, statistics_during_period)
+from homeassistant.components.recorder.statistics import \
+    _async_import_statistics
 from homeassistant.components.sensor import (SensorEntity,
                                              SensorEntityDescription,
                                              SensorStateClass)
@@ -20,7 +17,7 @@ from homeassistant.helpers.typing import (UNDEFINED, ConfigType,
 from homeassistant.helpers.update_coordinator import (CoordinatorEntity,
                                                       DataUpdateCoordinator)
 
-from . import schema, t
+from . import t, util
 
 logger = logging.getLogger(__name__)
 
@@ -72,13 +69,9 @@ class DesigoCoordinatorEntity(SensorEntity, CoordinatorEntity['DesigoDataUpdateC
             key=data_series_config.key,
             name=data_series_config.name,
             device_class=data_series_config.device_class,
+            state_class=data_series_config.state_class,
             icon=data_series_config.icon,
             native_unit_of_measurement=data_series_config.unit_of_measurement,
-            # This makes sense for most data we can get out of Desigo, but it may not apply to
-            # all data. If so, we will need to make this configurable + change the logic in
-            # DesigoDataUpdateCoordinator._insert_statistics, e.g. to calculate sums instead of
-            # means.
-            state_class=SensorStateClass.MEASUREMENT,
         )
         self._attr_unique_id = f"{t.DOMAIN}_{self.data_series_config.key}"
 
@@ -98,6 +91,9 @@ class DesigoDataUpdateCoordinator(DataUpdateCoordinator[list[t.DataSeries]]):
     username: str
     password: str
 
+    first_fetch_complete=False
+
+
     def __init__(
         self,
         hass: HomeAssistant,
@@ -109,7 +105,7 @@ class DesigoDataUpdateCoordinator(DataUpdateCoordinator[list[t.DataSeries]]):
             hass,
             logger,
             name=f'Desigo',
-            update_interval=timedelta(hours=1)
+            update_interval=timedelta(minutes=1)
         )
 
         self.async_client = create_async_httpx_client(self.hass)
@@ -151,12 +147,22 @@ class DesigoDataUpdateCoordinator(DataUpdateCoordinator[list[t.DataSeries]]):
 
 
     async def _async_update_data(self) -> list[t.DataSeries]:
+        # On startup we fetch the full history of the data. On subsequent runs we only fetch the
+        # last few days (the server default).
+        url = self.url
+        if not self.first_fetch_complete:
+            url = util.add_query_to_url(url, {
+                'start': '2000-01-01'
+            })
+
         auth = httpx.BasicAuth(self.username, self.password)
-        response = await self.async_client.request('GET', self.url, auth=auth)
+        response = await self.async_client.request('GET', url, auth=auth)
         raw_data = response.json()
         data = self.parse_data(raw_data)
 
         await self._insert_statistics(data)
+
+        self.first_fetch_complete = True
 
         return data
 
@@ -203,9 +209,13 @@ class DesigoDataUpdateCoordinator(DataUpdateCoordinator[list[t.DataSeries]]):
                 continue
 
             statistic_id = entity.entity_id
+            has_sum = entity.entity_description.state_class in (
+                SensorStateClass.TOTAL,
+                SensorStateClass.TOTAL_INCREASING,
+            )
             metadata = StatisticMetaData(
                 has_mean=True,
-                has_sum=False,
+                has_sum=has_sum,
                 name=None if entity.name == UNDEFINED else entity.name,
                 source=t.DOMAIN,
                 statistic_id=statistic_id,
@@ -213,13 +223,7 @@ class DesigoDataUpdateCoordinator(DataUpdateCoordinator[list[t.DataSeries]]):
             )
 
             # Group data points by hour so we can calculate the mean
-            class GroupedDataPoint(TypedDict):
-                timestamp: datetime
-                sum_of_values: float
-                num_values: int
-                last_value: float
-
-            grouped_data: list[GroupedDataPoint] = []
+            grouped_data: list[t.GroupedDataPoint] = []
             for timestamp, value in data_series.data:
                 truncated_timestamp = timestamp.replace(minute=0, second=0, microsecond=0)
                 if len(grouped_data) == 0 or truncated_timestamp != grouped_data[-1]['timestamp']:
@@ -234,12 +238,19 @@ class DesigoDataUpdateCoordinator(DataUpdateCoordinator[list[t.DataSeries]]):
                 grouped_data[-1]['sum_of_values'] += value
 
             statistics = [
-                StatisticData(
-                    start=item['timestamp'],
-                    state=item['last_value'],
-                    mean=item['sum_of_values'] / item['num_values']
-                )
-                for item in grouped_data
+                self.create_statistic_data(data_point, has_sum)
+                for data_point in grouped_data
             ]
 
             _async_import_statistics(self.hass, metadata, statistics)
+
+
+    def create_statistic_data(self, data_point: t.GroupedDataPoint, has_sum: bool) -> StatisticData:
+        statistic_data = StatisticData(
+            start=data_point['timestamp'],
+            state=data_point['last_value'],
+            mean=data_point['sum_of_values'] / data_point['num_values']
+        )
+        if has_sum:
+            statistic_data['sum'] = data_point['last_value']
+        return statistic_data
