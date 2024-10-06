@@ -6,8 +6,9 @@ __pycache__
 !/config/*.yaml
 /config/secrets.yaml
 
-!/config/rest
 !/config/custom_components
+!/config/mqtt
+!/config/rest
 
 /config/custom_components/*
 !/config/custom_components/desigo

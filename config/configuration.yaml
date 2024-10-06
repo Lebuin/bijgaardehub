@@ -18,3 +18,6 @@ scene: !include scenes.yaml
 rest: !include_dir_merge_list rest
 
 desigo: !include desigo.yaml
+
+mqtt:
+  sensor: !include_dir_merge_list mqtt/sensor

@@ -1,0 +1,7 @@
+- name: 2-Wire - Biotope - Was001
+  unique_id: 2wire_biotope_was001
+  state_topic: c8f09e049af8/PUB/CH1
+  value_template: "{{ value_json.CH }}"
+  device_class: energy
+  state_class: total_increasing
+  unit_of_measurement: kWh
