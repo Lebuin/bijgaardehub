@@ -1,77 +1,77 @@
 - name: 2-Wire - Biotope - Was001
   unique_id: 2_wire_biotope_was001
   state_topic: c8f09e049af8/PUB/CH1
-  value_template: "{{ value_json.CH }}"
+  value_template: "{{ value_json.CH / 1000 }}"
   device_class: energy
   state_class: total_increasing
   unit_of_measurement: kWh
 - name: 2-Wire - Biotope - Droog001
   unique_id: 2_wire_biotope_droog001
   state_topic: c8f09e049af8/PUB/CH2
-  value_template: "{{ value_json.CH }}"
+  value_template: "{{ value_json.CH / 1000 }}"
   device_class: energy
   state_class: total_increasing
   unit_of_measurement: kWh
 - name: 2-Wire - Biotope - Was002
   unique_id: 2_wire_biotope_was002
   state_topic: c8f09e049af8/PUB/CH3
-  value_template: "{{ value_json.CH }}"
+  value_template: "{{ value_json.CH / 1000 }}"
   device_class: energy
   state_class: total_increasing
   unit_of_measurement: kWh
 - name: 2-Wire - Biotope - Droog002
   unique_id: 2_wire_biotope_droog002
   state_topic: c8f09e049af8/PUB/CH4
-  value_template: "{{ value_json.CH }}"
+  value_template: "{{ value_json.CH / 1000 }}"
   device_class: energy
   state_class: total_increasing
   unit_of_measurement: kWh
 - name: 2-Wire - Biotope - LIFT
   unique_id: 2_wire_biotope_lift
   state_topic: c8f09e049af8/PUB/CH5
-  value_template: "{{ value_json.CH }}"
+  value_template: "{{ value_json.CH / 1000 }}"
   device_class: energy
   state_class: total_increasing
   unit_of_measurement: kWh
 - name: 2-Wire - Biotope - Da2 was/droog
   unique_id: 2_wire_biotope_da2_was_droog
   state_topic: c8f09e049af8/PUB/CH6
-  value_template: "{{ value_json.CH }}"
+  value_template: "{{ value_json.CH / 1000 }}"
   device_class: energy
   state_class: total_increasing
   unit_of_measurement: kWh
 - name: 2-Wire - Biotope - Hvac
   unique_id: 2_wire_biotope_hvac
   state_topic: c8f09e049af8/PUB/CH7
-  value_template: "{{ value_json.CH }}"
+  value_template: "{{ value_json.CH / 1000 }}"
   device_class: energy
   state_class: total_increasing
   unit_of_measurement: kWh
 - name: 2-Wire - Biotope - Keuken
   unique_id: 2_wire_biotope_keuken
   state_topic: c8f09e049af8/PUB/CH8
-  value_template: "{{ value_json.CH }}"
+  value_template: "{{ value_json.CH / 1000 }}"
   device_class: energy
   state_class: total_increasing
   unit_of_measurement: kWh
 - name: 2-Wire - Biotope - Logeer
   unique_id: 2_wire_biotope_logeer
   state_topic: c8f09e049af8/PUB/CH9
-  value_template: "{{ value_json.CH }}"
+  value_template: "{{ value_json.CH / 1000 }}"
   device_class: energy
   state_class: total_increasing
   unit_of_measurement: kWh
 - name: 2-Wire - Biotope - Haspel
   unique_id: 2_wire_biotope_haspel
   state_topic: c8f09e049af8/PUB/CH10
-  value_template: "{{ value_json.CH }}"
+  value_template: "{{ value_json.CH / 1000 }}"
   device_class: energy
   state_class: total_increasing
   unit_of_measurement: kWh
 - name: 2-Wire - Biotope - Warmtepomp
   unique_id: 2_wire_biotope_warmtepomp
   state_topic: c8f09e049af8/PUB/CH11
-  value_template: "{{ value_json.CH }}"
+  value_template: "{{ value_json.CH / 1000 }}"
   device_class: energy
   state_class: total_increasing
   unit_of_measurement: kWh
