@@ -11,3 +11,5 @@ __pycache__
 
 /config/custom_components/*
 !/config/custom_components/desigo
+
+/mosquitto/config/passwords

@@ -6,8 +6,6 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
       - ./config:/config
-    ports:
-      - "8123:8123"
     env_file:
       - .env
     labels:
@@ -15,3 +13,16 @@ services:
       - "traefik.http.routers.bijgaardehub.rule=Host(`bijgaardehub.lenders.dev`)"
       - "traefik.http.routers.bijgaardehub.tls=true"
       - "traefik.http.routers.bijgaardehub.tls.certresolver=myresolver"
+
+  mosquitto:
+    image: eclipse-mosquitto
+    user: $PUID:$PGID
+    restart: unless-stopped
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+    env_file:
+      - .env
+    ports:
+      - 1883:1883
+      - 9001:9001
+    command: ["/usr/sbin/mosquitto", "-c", "/mosquitto/config/mosquitto.conf", "-v"]

@@ -3,8 +3,9 @@ This project is designed to be publicly exposed through [Traefik](https://traefi
 
 # Installation
 
-* Create a .env file that sets the PUID and PGID environment variables to match the current user.
-* Create config/secrets.yaml based on config/secrets.example.yaml and fill in the secrets.
+* Create a .env file that sets the `PUID` and `PGID` environment variables to match the current user.
+* Create `config/secrets.yaml` based on `config/secrets.example.yaml` and fill in the secrets.
+* Create a password file `mosquitto/config/passwords`
 * Run `docker compose up -d`.
 
 ## VPN services
