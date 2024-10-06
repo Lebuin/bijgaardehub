@@ -16,6 +16,20 @@ data_series:
     device_class: temperature
     state_class: measurement
     unit_of_measurement: °C
+  - key: biotope_aanvoer_units
+    name: Desigo - Biotope - Aanvoertemperatuur units
+    series_group: Biotope
+    series_name: Verwarming'Kring Woonunits'Mengschakeling'Aanv.temp.
+    device_class: temperature
+    state_class: measurement
+    unit_of_measurement: °C
+  - key: biotope_retour_units
+    name: Desigo - Biotope - Retourtemperatuur units
+    series_group: Biotope
+    series_name: Verwarming'Kring Woonunits'Mengschakeling'Retourtemp.
+    device_class: temperature
+    state_class: measurement
+    unit_of_measurement: °C
   - key: biotope_heat_energy_e1
     name: Desigo - Biotope - Heat energy E1
     series_group: Biotope
