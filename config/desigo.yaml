@@ -44,3 +44,45 @@ data_series:
     device_class: energy
     state_class: total_increasing
     unit_of_measurement: kWh
+  - key: biotope_luchtgroep_inblaastemperatuur
+    name: Desigo - Biotope - Luchtgroep - Inblaastemperatuur
+    series_group: Biotope
+    series_name: Luchtbeh. en vent.'Luchtgroep IV Gem delen'Inbl.temp.
+    device_class: temperature
+    state_class: measurement
+    unit_of_measurement: °C
+  - key: biotope_luchtgroep_afzuigtemperatuur
+    name: Desigo - Biotope - Luchtgroep - Afzuigtemperatuur
+    series_group: Biotope
+    series_name: Luchtbeh. en vent.'Luchtgroep IV Gem delen'Afz.temp.
+    device_class: temperature
+    state_class: measurement
+    unit_of_measurement: °C
+  - key: biotope_luchtgroep_aanzuigtemperatuur
+    name: Desigo - Biotope - Luchtgroep - Aanzuigtemperatuur
+    series_group: Biotope
+    series_name: Luchtbeh. en vent.'Luchtgroep IV Gem delen'Buitentemp.aanzuig
+    device_class: temperature
+    state_class: measurement
+    unit_of_measurement: °C
+  - key: biotope_luchtgroep_toevoerflow
+    name: Desigo - Biotope - Luchtgroep - Toevoer flow
+    series_group: Biotope
+    series_name: Luchtbeh. en vent.'Luchtgroep IV Gem delen'Toevoer flow
+    device_class: volume_flow_rate
+    state_class: measurement
+    unit_of_measurement: m³/h
+  - key: biotope_luchtgroep_afvoerflow
+    name: Desigo - Biotope - Luchtgroep - Afvoer flow
+    series_group: Biotope
+    series_name: Luchtbeh. en vent.'Luchtgroep IV Gem delen'Afvoer flow
+    device_class: volume_flow_rate
+    state_class: measurement
+    unit_of_measurement: m³/h
+  - key: biotope_luchtgroep_energieterugwinning
+    name: Desigo - Biotope - Luchtgroep - Energieterugwinning
+    series_group: Biotope
+    series_name: Luchtbeh. en vent.'Luchtgroep IV Gem delen'Energieterugwinning
+    device_class: power_factor
+    state_class: measurement
+    unit_of_measurement: m³/h
