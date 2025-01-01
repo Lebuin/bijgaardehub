@@ -228,13 +228,17 @@ class DesigoDataUpdateCoordinator(DataUpdateCoordinator[list[t.DataSeries]]):
                 if len(grouped_data) == 0 or truncated_timestamp != grouped_data[-1]['timestamp']:
                     grouped_data.append({
                         'timestamp': truncated_timestamp,
+                        'min_value': value,
+                        'max_value': value,
                         'sum_of_values': 0,
                         'num_values': 0,
                         'last_value': 0,
                     })
-                grouped_data[-1]['last_value'] = value
+                grouped_data[-1]['min_value'] = min(grouped_data[-1]['min_value'], value)
+                grouped_data[-1]['max_value'] = max(grouped_data[-1]['max_value'], value)
                 grouped_data[-1]['num_values'] += 1
                 grouped_data[-1]['sum_of_values'] += value
+                grouped_data[-1]['last_value'] = value
 
             statistics = [
                 self.create_statistic_data(data_point, has_sum)
@@ -250,6 +254,8 @@ class DesigoDataUpdateCoordinator(DataUpdateCoordinator[list[t.DataSeries]]):
         statistic_data = StatisticData(
             start=data_point['timestamp'],
             state=data_point['last_value'],
+            min=data_point['min_value'],
+            max=data_point['max_value'],
             mean=data_point['sum_of_values'] / data_point['num_values']
         )
         if has_sum:

@@ -39,6 +39,8 @@ class DataSeries:
 
 class GroupedDataPoint(TypedDict):
     timestamp: datetime
+    min_value: float
+    max_value: float
     sum_of_values: float
     num_values: int
     last_value: float
