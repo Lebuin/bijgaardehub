@@ -63,7 +63,6 @@
       unique_id: weatherstation.roofs.north.last_verification
       value_template: '{{ as_datetime(value_json.roofs.north.last_verification, "") }}'
       device_class: timestamp
-      state_class: measurement
 
     - name: Greenhouse - Roof south - Position
       unique_id: weatherstation.roofs.south.position
@@ -79,7 +78,6 @@
       unique_id: weatherstation.roofs.south.last_verification
       value_template: '{{ as_datetime(value_json.roofs.south.last_verification, "") }}'
       device_class: timestamp
-      state_class: measurement
 
     - name: Greenhouse - Outdoor - Data source
       unique_id: weatherstation.weather_report.outdoor.data_source
