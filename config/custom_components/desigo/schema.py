@@ -16,7 +16,7 @@ DATA_SERIES_SCHEMA = vol.Schema({
     # The name of the series in the desigo-scraper response
     vol.Required('series_name'): cv.string,
     # The device class of the sensor
-    vol.Required(const.CONF_DEVICE_CLASS): sensor.DEVICE_CLASSES_SCHEMA,
+    vol.Optional(const.CONF_DEVICE_CLASS): sensor.DEVICE_CLASSES_SCHEMA,
     # The state class of the sensor statistics
     vol.Required(sensor.CONF_STATE_CLASS): sensor.STATE_CLASSES_SCHEMA,
     # The icon of the sensor

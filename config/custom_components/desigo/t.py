@@ -22,9 +22,9 @@ class DataSeriesConfig:
     series_group: str
     series_name: str
 
-    device_class: SensorDeviceClass
-    state_class: SensorStateClass
     unit_of_measurement: str
+    state_class: SensorStateClass
+    device_class: SensorDeviceClass | None=None
     icon: str | None=None
 
 
