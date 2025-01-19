@@ -83,6 +83,5 @@ data_series:
     name: Desigo - Biotope - Luchtgroep - Energieterugwinning
     series_group: Biotope
     series_name: Luchtbeh. en vent.'Luchtgroep IV Gem delen'Energieterugwinning
-    device_class: power_factor
     state_class: measurement
     unit_of_measurement: m³/h
