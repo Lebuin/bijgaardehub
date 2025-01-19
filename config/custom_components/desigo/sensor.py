@@ -142,6 +142,7 @@ class DesigoDataUpdateCoordinator(DataUpdateCoordinator[list[t.DataSeries]]):
             if (
                 data_series.group == entity.data_series_config.series_group
                 and data_series.name == entity.data_series_config.series_name
+                and len(data_series.data) > 0
             )
         )
 
