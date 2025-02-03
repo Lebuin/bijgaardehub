@@ -4,6 +4,9 @@ default_config:
 homeassistant:
   debug: true
 
+logger:
+  default: debug
+
 http:
   use_x_forwarded_for: true
   trusted_proxies:
