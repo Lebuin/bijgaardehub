@@ -16,6 +16,7 @@ from homeassistant.helpers.typing import (UNDEFINED, ConfigType,
                                           DiscoveryInfoType, StateType)
 from homeassistant.helpers.update_coordinator import (CoordinatorEntity,
                                                       DataUpdateCoordinator)
+from homeassistant.util import dt
 
 from . import t, util
 
@@ -224,8 +225,14 @@ class DesigoDataUpdateCoordinator(DataUpdateCoordinator[list[t.DataSeries]]):
 
             # Group data points by hour so we can calculate the mean
             grouped_data: list[t.GroupedDataPoint] = []
+            now = dt.utcnow()
             for timestamp, value in data_series.data:
                 truncated_timestamp = timestamp.replace(minute=0, second=0, microsecond=0)
+                # Don't insert statistics for the past hour, this messes with HA's built-in
+                # statistics calculation, which assumes that these statistics won't exist yet.
+                if now - truncated_timestamp < timedelta(hours=1):
+                    continue
+
                 if len(grouped_data) == 0 or truncated_timestamp != grouped_data[-1]['timestamp']:
                     grouped_data.append({
                         'timestamp': truncated_timestamp,
@@ -246,7 +253,9 @@ class DesigoDataUpdateCoordinator(DataUpdateCoordinator[list[t.DataSeries]]):
                 for data_point in grouped_data
             ]
 
-            _async_import_statistics(self.hass, metadata, statistics)
+            if len(statistics) > 0:
+                logger.info(f'Inserting statistics for {statistic_id}: {statistics[-1]}')
+                _async_import_statistics(self.hass, metadata, statistics)
 
             entity.first_fetch_complete = True
 
