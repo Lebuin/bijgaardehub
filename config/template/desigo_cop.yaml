@@ -1,0 +1,17 @@
+- sensor:
+  - unique_id: desigo_biotope_cop
+    name: "Desigo - Biotope - COP"
+    state: >
+      {% set energy = states('sensor.biotope_cooling_energy_e3') | float %}
+      {% set electricity = states('sensor.2wire_biotope_warmtepomp') | float %}
+      {% set cop = 0 %}
+      {% if energy > 0 and electricity > 0 %}
+        {% set cop = (energy + electricity) / electricity %}
+      {% endif %}
+      {{ cop }}
+    availability: >
+      {{
+        is_number(states('sensor.biotope_cooling_energy_e3')) and
+        is_number(states('sensor.2wire_biotope_warmtepomp'))
+      }}
+    state_class: measurement

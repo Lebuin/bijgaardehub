@@ -26,3 +26,6 @@ desigo: !include desigo.yaml
 
 mqtt:
   sensor: !include_dir_merge_list mqtt/sensor
+
+template:
+  !include_dir_merge_list template
