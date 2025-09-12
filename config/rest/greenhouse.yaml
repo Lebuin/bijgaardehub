@@ -1,5 +1,5 @@
 - method: GET
-  resource: http://10.9.10.5:5000/state
+  resource: https://weatherstation.lenders.dev/state
   scan_interval: 60
   timeout: 20
   sensor:
