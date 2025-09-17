@@ -8,17 +8,17 @@
   sensor:
     - name: Rainwater tanks - Spore - Level
       unique_id: rainwater_tanks.spore.level
-      value_template: '{{ value_json.values["L1 Spore"] }}'
+      value_template: '{{ value_json.fields["L1 Spore"] }}'
       unit_of_measurement: cm
       state_class: measurement
     - name: Rainwater tanks - Spore - Relative level
       unique_id: rainwater_tanks.spore.relative
-      value_template: '{{ (value_json.values["L1 Spore"] / 300 * 100) | round }}'
+      value_template: '{{ (value_json.fields["L1 Spore"] / 300 * 100) | round }}'
       unit_of_measurement: '%'
       state_class: measurement
     - name: Rainwater tanks - Spore - Volume
       unique_id: rainwater_tanks.spore.volume
-      value_template: '{{ (value_json.values["L1 Spore"] / 300 * 10e3) | round }}'
+      value_template: '{{ (value_json.fields["L1 Spore"] / 300 * 10e3) | round }}'
       device_class: volume_storage
       unit_of_measurement: L
       state_class: measurement
@@ -30,17 +30,17 @@
 
     - name: Rainwater tanks - Wijgaard - Level
       unique_id: rainwater_tanks.wijgaard.level
-      value_template: '{{ value_json.values["L2 Wijgaard"] }}'
+      value_template: '{{ value_json.fields["L2 Wijgaard"] }}'
       unit_of_measurement: cm
       state_class: measurement
     - name: Rainwater tanks - Wijgaard - Relative level
       unique_id: rainwater_tanks.wijgaard.relative
-      value_template: '{{ (value_json.values["L2 Wijgaard"] / 300 * 100) | round }}'
+      value_template: '{{ (value_json.fields["L2 Wijgaard"] / 300 * 100) | round }}'
       unit_of_measurement: '%'
       state_class: measurement
     - name: Rainwater tanks - Wijgaard - Volume
       unique_id: rainwater_tanks.wijgaard.volume
-      value_template: '{{ (value_json.values["L2 Wijgaard"] / 300 * 20e3) | round }}'
+      value_template: '{{ (value_json.fields["L2 Wijgaard"] / 300 * 20e3) | round }}'
       device_class: volume_storage
       unit_of_measurement: L
       state_class: measurement
@@ -52,17 +52,17 @@
 
     - name: Rainwater tanks - Biotope - Level
       unique_id: rainwater_tanks.biotope.level
-      value_template: '{{ value_json.values["L3 Biotope"] }}'
+      value_template: '{{ value_json.fields["L3 Biotope"] }}'
       unit_of_measurement: cm
       state_class: measurement
     - name: Rainwater tanks - Biotope - Relative level
       unique_id: rainwater_tanks.biotope.relative
-      value_template: '{{ (value_json.values["L3 Biotope"] / 300 * 100) | round }}'
+      value_template: '{{ (value_json.fields["L3 Biotope"] / 300 * 100) | round }}'
       unit_of_measurement: '%'
       state_class: measurement
     - name: Rainwater tanks - Biotope - Volume
       unique_id: rainwater_tanks.biotope.volume
-      value_template: '{{ (value_json.values["L3 Biotope"] / 300 * 20e3) | round }}'
+      value_template: '{{ (value_json.fields["L3 Biotope"] / 300 * 20e3) | round }}'
       device_class: volume_storage
       unit_of_measurement: L
       state_class: measurement
@@ -74,17 +74,17 @@
 
     - name: Rainwater tanks - Hubo - Level
       unique_id: rainwater_tanks.hubo.level
-      value_template: '{{ value_json.values["L5 Hubo"] }}'
+      value_template: '{{ value_json.fields["L5 Hubo"] }}'
       unit_of_measurement: cm
       state_class: measurement
     - name: Rainwater tanks - Hubo - Relative level
       unique_id: rainwater_tanks.hubo.relative
-      value_template: '{{ (value_json.values["L5 Hubo"] / 300 * 100) | round }}'
+      value_template: '{{ (value_json.fields["L5 Hubo"] / 300 * 100) | round }}'
       unit_of_measurement: '%'
       state_class: measurement
     - name: Rainwater tanks - Hubo - Volume
       unique_id: rainwater_tanks.hubo.volume
-      value_template: '{{ (value_json.values["L5 Hubo"] / 300 * 150e3) | round }}'
+      value_template: '{{ (value_json.fields["L5 Hubo"] / 300 * 150e3) | round }}'
       device_class: volume_storage
       unit_of_measurement: L
       state_class: measurement
@@ -97,25 +97,25 @@
   binary_sensor:
     - name: Rainwater tanks - Spore - Valve
       unique_id: rainwater_tanks.spore.valve
-      value_template: '{{ value_json.values["K1 Spore open"] }}'
+      value_template: '{{ value_json.fields["K1 Spore open"] }}'
       device_class: opening
     - name: Rainwater tanks - Wijgaard - Valve
       unique_id: rainwater_tanks.wijgaard.valve
-      value_template: '{{ value_json.values["K2 Wijgaard open"] }}'
+      value_template: '{{ value_json.fields["K2 Wijgaard open"] }}'
       device_class: opening
     - name: Rainwater tanks - Biotope - Valve
       unique_id: rainwater_tanks.biotope.valve
-      value_template: '{{ value_json.values["K3 Biotope open"] }}'
+      value_template: '{{ value_json.fields["K3 Biotope open"] }}'
       device_class: opening
     - name: Rainwater tanks - Wadi - Valve
       unique_id: rainwater_tanks.wadi.valve
-      value_template: '{{ value_json.values["K4 Wadi 1 cohousing open"] }}'
+      value_template: '{{ value_json.fields["K4 Wadi 1 cohousing open"] }}'
       device_class: opening
     - name: Rainwater tanks - Baertsoen-Buysse - Pump
       unique_id: rainwater_tanks.spore.pump
-      value_template: '{{ value_json.values["P1 Pomp Baertsoen Buysse"] }}'
+      value_template: '{{ value_json.fields["P1 Pomp Baertsoen Buysse"] }}'
       device_class: power
     - name: Rainwater tanks - Automation
       unique_id: rainwater_tanks.automation.status
-      value_template: '{{ value_json.values["Automatisering kleppen en pomp"] }}'
+      value_template: '{{ value_json.fields["Automatisering kleppen en pomp"] }}'
       device_class: power
