@@ -97,25 +97,25 @@
   binary_sensor:
     - name: Rainwater tanks - Spore - Valve
       unique_id: rainwater_tanks.spore.valve
-      value_template: '{{ value_json[0].Groups[1].Outputs[0].Status.On }}'
+      value_template: '{{ value_json["K1 Spore open"] }}'
       device_class: opening
     - name: Rainwater tanks - Wijgaard - Valve
       unique_id: rainwater_tanks.wijgaard.valve
-      value_template: '{{ value_json[0].Groups[1].Outputs[1].Status.On }}'
+      value_template: '{{ value_json["K2 Wijgaard open"] }}'
       device_class: opening
     - name: Rainwater tanks - Biotope - Valve
       unique_id: rainwater_tanks.biotope.valve
-      value_template: '{{ value_json[0].Groups[1].Outputs[2].Status.On }}'
+      value_template: '{{ value_json["K3 Biotope open"] }}'
       device_class: opening
     - name: Rainwater tanks - Wadi - Valve
       unique_id: rainwater_tanks.wadi.valve
-      value_template: '{{ value_json[0].Groups[1].Outputs[3].Status.On }}'
+      value_template: '{{ value_json["K4 Wadi 1 cohousing open"] }}'
       device_class: opening
     - name: Rainwater tanks - Baertsoen-Buysse - Pump
       unique_id: rainwater_tanks.spore.pump
-      value_template: '{{ value_json[0].Groups[1].Outputs[4].Status.On }}'
+      value_template: '{{ value_json["P1 Pomp Baertsoen Buysse"] }}'
       device_class: power
     - name: Rainwater tanks - Automation
       unique_id: rainwater_tanks.automation.status
-      value_template: '{{ value_json[0].Groups[1].Outputs[5].Status.On }}'
+      value_template: '{{ value_json["Automatisering kleppen en pomp"] }}'
       device_class: power
