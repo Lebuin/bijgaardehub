@@ -3,8 +3,8 @@
   authentication: basic
   username: !secret qbus_username
   password: !secret qbus_password
-  scan_interval: 60
-  timeout: 60
+  scan_interval: 300
+  timeout: 120
   sensor:
     - name: Rainwater tanks - Spore - Level
       unique_id: rainwater_tanks.spore.level
