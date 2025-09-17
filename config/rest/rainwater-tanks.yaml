@@ -1,94 +1,96 @@
 - method: GET
-  resource: https://qbuscontrol.com/api/groupparents/dashboard/0
-  headers:
-    Authorization: !secret qbus_authorization
+  resource: https://qbus-scraper.lenders.dev/data
+  authentication: basic
+  username: !secret qbus_username
+  password: !secret qbus_password
   scan_interval: 60
+  timeout: 60
   sensor:
     - name: Rainwater tanks - Spore - Level
       unique_id: rainwater_tanks.spore.level
-      value_template: '{{ value_json[0].Groups[0].Outputs[0].Status.currentValue }}'
+      value_template: '{{ value_json["L1 Spore"] }}'
       unit_of_measurement: cm
       state_class: measurement
     - name: Rainwater tanks - Spore - Relative level
       unique_id: rainwater_tanks.spore.relative
-      value_template: '{{ (value_json[0].Groups[0].Outputs[0].Status.currentValue / value_json[0].Groups[0].Outputs[0].MetaData.currentValue.max * 100) | round }}'
+      value_template: '{{ (value_json["L1 Spore"] / 300 * 100) | round }}'
       unit_of_measurement: '%'
       state_class: measurement
     - name: Rainwater tanks - Spore - Volume
       unique_id: rainwater_tanks.spore.volume
-      value_template: '{{ (value_json[0].Groups[0].Outputs[0].Status.currentValue / value_json[0].Groups[0].Outputs[0].MetaData.currentValue.max * 10e3) | round }}'
+      value_template: '{{ (value_json["L1 Spore"] / 300 * 10e3) | round }}'
       device_class: volume_storage
       unit_of_measurement: L
       state_class: measurement
     - name: Rainwater tanks - Spore - Max
       unique_id: rainwater_tanks.spore.max
-      value_template: '{{ value_json[0].Groups[0].Outputs[0].MetaData.currentValue.max }}'
+      value_template: '{{ 300 }}'
       unit_of_measurement: cm
       state_class: measurement
 
     - name: Rainwater tanks - Wijgaard - Level
       unique_id: rainwater_tanks.wijgaard.level
-      value_template: '{{ value_json[0].Groups[0].Outputs[1].Status.currentValue }}'
+      value_template: '{{ value_json["L2 Wijgaard"] }}'
       unit_of_measurement: cm
       state_class: measurement
     - name: Rainwater tanks - Wijgaard - Relative level
       unique_id: rainwater_tanks.wijgaard.relative
-      value_template: '{{ (value_json[0].Groups[0].Outputs[1].Status.currentValue / value_json[0].Groups[0].Outputs[1].MetaData.currentValue.max * 100) | round }}'
+      value_template: '{{ (value_json["L2 Wijgaard"] / 300 * 100) | round }}'
       unit_of_measurement: '%'
       state_class: measurement
     - name: Rainwater tanks - Wijgaard - Volume
       unique_id: rainwater_tanks.wijgaard.volume
-      value_template: '{{ (value_json[0].Groups[0].Outputs[1].Status.currentValue / value_json[0].Groups[0].Outputs[1].MetaData.currentValue.max * 20e3) | round }}'
+      value_template: '{{ (value_json["L2 Wijgaard"] / 300 * 20e3) | round }}'
       device_class: volume_storage
       unit_of_measurement: L
       state_class: measurement
     - name: Rainwater tanks - Wijgaard - Max
       unique_id: rainwater_tanks.wijgaard.max
-      value_template: '{{ value_json[0].Groups[0].Outputs[1].MetaData.currentValue.max }}'
+      value_template: '{{ 300 }}'
       unit_of_measurement: cm
       state_class: measurement
 
     - name: Rainwater tanks - Biotope - Level
       unique_id: rainwater_tanks.biotope.level
-      value_template: '{{ value_json[0].Groups[0].Outputs[2].Status.currentValue }}'
+      value_template: '{{ value_json["L3 Biotope"] }}'
       unit_of_measurement: cm
       state_class: measurement
     - name: Rainwater tanks - Biotope - Relative level
       unique_id: rainwater_tanks.biotope.relative
-      value_template: '{{ (value_json[0].Groups[0].Outputs[2].Status.currentValue / value_json[0].Groups[0].Outputs[2].MetaData.currentValue.max * 100) | round }}'
+      value_template: '{{ (value_json["L3 Biotope"] / 300 * 100) | round }}'
       unit_of_measurement: '%'
       state_class: measurement
     - name: Rainwater tanks - Biotope - Volume
       unique_id: rainwater_tanks.biotope.volume
-      value_template: '{{ (value_json[0].Groups[0].Outputs[2].Status.currentValue / value_json[0].Groups[0].Outputs[2].MetaData.currentValue.max * 20e3) | round }}'
+      value_template: '{{ (value_json["L3 Biotope"] / 300 * 20e3) | round }}'
       device_class: volume_storage
       unit_of_measurement: L
       state_class: measurement
     - name: Rainwater tanks - Biotope - Max
       unique_id: rainwater_tanks.biotope.max
-      value_template: '{{ value_json[0].Groups[0].Outputs[2].MetaData.currentValue.max }}'
+      value_template: '{{ 300 }}'
       unit_of_measurement: cm
       state_class: measurement
 
     - name: Rainwater tanks - Hubo - Level
       unique_id: rainwater_tanks.hubo.level
-      value_template: '{{ value_json[0].Groups[0].Outputs[4].Status.currentValue }}'
+      value_template: '{{ value_json["L5 Hubo"] }}'
       unit_of_measurement: cm
       state_class: measurement
     - name: Rainwater tanks - Hubo - Relative level
       unique_id: rainwater_tanks.hubo.relative
-      value_template: '{{ (value_json[0].Groups[0].Outputs[4].Status.currentValue / value_json[0].Groups[0].Outputs[4].MetaData.currentValue.max * 100) | round }}'
+      value_template: '{{ (value_json["L5 Hubo"] / 300 * 100) | round }}'
       unit_of_measurement: '%'
       state_class: measurement
     - name: Rainwater tanks - Hubo - Volume
       unique_id: rainwater_tanks.hubo.volume
-      value_template: '{{ (value_json[0].Groups[0].Outputs[4].Status.currentValue / value_json[0].Groups[0].Outputs[4].MetaData.currentValue.max * 150e3) | round }}'
+      value_template: '{{ (value_json["L5 Hubo"] / 300 * 150e3) | round }}'
       device_class: volume_storage
       unit_of_measurement: L
       state_class: measurement
     - name: Rainwater tanks - Hubo - Max
       unique_id: rainwater_tanks.hubo.max
-      value_template: '{{ value_json[0].Groups[0].Outputs[4].MetaData.currentValue.max }}'
+      value_template: '{{ 300 }}'
       unit_of_measurement: cm
       state_class: measurement
 
