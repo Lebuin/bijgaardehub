@@ -13,6 +13,12 @@ services:
       - "traefik.http.routers.bijgaardehub.rule=Host(`hub.bijgaardehof.be`) || Host(`bijgaardehub.lenders.dev`)"
       - "traefik.http.routers.bijgaardehub.tls=true"
       - "traefik.http.routers.bijgaardehub.tls.certresolver=myresolver"
+    healthcheck:
+      test: curl --silent --fail http://localhost:8123/
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 120s
 
   mosquitto:
     image: eclipse-mosquitto
@@ -26,3 +32,9 @@ services:
       - 1883:1883
       - 9001:9001
     command: [ "/usr/sbin/mosquitto", "-c", "/mosquitto/config/mosquitto.conf", "-v" ]
+    healthcheck:
+      test: nc -z 0.0.0.0 1883
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
