@@ -38,3 +38,12 @@ services:
       timeout: 10s
       retries: 3
       start_period: 10s
+
+  unhealthy-restarter:
+    image: docker:cli
+    network_mode: none
+    cap_drop:
+      - ALL
+    volumes: [ "/var/run/docker.sock:/var/run/docker.sock" ]
+    command: [ "/bin/sh", "-c", "while true; do sleep 60; docker ps -q -f health=unhealthy | xargs --no-run-if-empty docker restart; done" ]
+    restart: unless-stopped
