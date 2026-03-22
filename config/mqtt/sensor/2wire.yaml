@@ -33,6 +33,13 @@
   device_class: energy
   state_class: total
   unit_of_measurement: Wh
+- name: 2-Wire - Biotope - Sauna
+  unique_id: 2wire_biotope_sauna
+  state_topic: c8f09e049af8/PUB/CH5
+  value_template: "{{ value_json.CH }}"
+  device_class: energy
+  state_class: total
+  unit_of_measurement: Wh
 - name: 2-Wire - Biotope - Da2 was/droog
   unique_id: 2wire_biotope_da2_was_droog
   state_topic: c8f09e049af8/PUB/CH6
