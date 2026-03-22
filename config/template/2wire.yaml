@@ -1,0 +1,12 @@
+- sensor:
+  - name: 2-Wire - Biotope - Wassalon
+    unique_id: 2wire_biotope_wassalon
+    state: >
+      states('sensor.2wire_biotope_was001') | float(0) +
+      states('sensor.2wire_biotope_was002') | float(0) +
+      states('sensor.2wire_biotope_droog001') | float(0) +
+      states('sensor.2wire_biotope_droog002') | float(0) +
+      states('sensor.2wire_biotope_da2_was_droog') | float(0)
+    device_class: energy
+    state_class: total
+    unit_of_measurement: Wh
