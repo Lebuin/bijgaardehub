@@ -2,20 +2,26 @@ import logging
 from datetime import datetime, timedelta
 
 import httpx
-from homeassistant.components.recorder.models import (StatisticData,
-                                                      StatisticMetaData)
-from homeassistant.components.recorder.statistics import \
-    _async_import_statistics
-from homeassistant.components.sensor import (SensorEntity,
-                                             SensorEntityDescription,
-                                             SensorStateClass)
+from homeassistant.components.recorder.models import StatisticData, StatisticMetaData
+from homeassistant.components.recorder.statistics import _async_import_statistics
+from homeassistant.components.sensor import (
+    SensorEntity,
+    SensorEntityDescription,
+    SensorStateClass,
+)
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.httpx_client import create_async_httpx_client
-from homeassistant.helpers.typing import (UNDEFINED, ConfigType,
-                                          DiscoveryInfoType, StateType)
-from homeassistant.helpers.update_coordinator import (CoordinatorEntity,
-                                                      DataUpdateCoordinator)
+from homeassistant.helpers.typing import (
+    UNDEFINED,
+    ConfigType,
+    DiscoveryInfoType,
+    StateType,
+)
+from homeassistant.helpers.update_coordinator import (
+    CoordinatorEntity,
+    DataUpdateCoordinator,
+)
 from homeassistant.util import dt
 
 from . import t, util
@@ -159,7 +165,7 @@ class DesigoDataUpdateCoordinator(DataUpdateCoordinator[list[t.DataSeries]]):
 
         self.logger.info(f'Fetch history from {url}')
         auth = httpx.BasicAuth(self.username, self.password)
-        response = await self.async_client.request('GET', url, auth=auth)
+        response = await self.async_client.request('GET', url, auth=auth, timeout=60)
         raw_data = response.json()
         data = self.parse_data(raw_data)
 
