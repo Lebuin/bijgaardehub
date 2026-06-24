@@ -187,6 +187,12 @@ class DesigoDataUpdateCoordinator(DataUpdateCoordinator[list[t.DataSeries]]):
             # I'm not sure how to handle this, but it's not a big issue: we will get the same
             # statistics on the next run.
             if not entity.entity_id:
+                self.logger.info(
+                    'Entity id not set for {} - {}'.format(
+                        entity.data_series_config.series_group,
+                        entity.data_series_config.series_name,
+                    )
+                )
                 continue
 
             try:
