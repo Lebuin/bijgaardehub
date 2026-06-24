@@ -9,8 +9,9 @@ from homeassistant.components.sensor import (
     SensorEntityDescription,
     SensorStateClass,
 )
-from homeassistant.core import HomeAssistant
+from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
+from homeassistant.helpers.event import async_call_later
 from homeassistant.helpers.httpx_client import create_async_httpx_client
 from homeassistant.helpers.typing import (
     UNDEFINED,
@@ -60,15 +61,23 @@ async def async_setup_platform(
         for data_series in all_data_series
     ]
 
-    async_add_entities(entities, True)
+    # Do not set update_before_add=True: this calls
+    # DesigoDataUpdateCoordinator._async_update_data before the entities are added,
+    # which causes the entities to not have entity_ids yet.
+    # Instead, we explicitly call the refresh after a short delay.
+    async_add_entities(entities, False)
+
+    @callback
+    def _delayed_first_refresh(_now) -> None:
+        hass.async_create_task(coordinator.async_refresh())
+
+    async_call_later(hass, 10, _delayed_first_refresh)
 
 
 class DesigoCoordinatorEntity(
     SensorEntity, CoordinatorEntity['DesigoDataUpdateCoordinator']
 ):  # type: ignore
     data_series_config: t.DataSeriesConfig
-
-    first_fetch_complete = False
 
     def __init__(
         self,
@@ -101,6 +110,7 @@ class DesigoDataUpdateCoordinator(DataUpdateCoordinator[list[t.DataSeries]]):
     url: str
     username: str
     password: str
+    first_fetch_complete = False
 
     def __init__(
         self,
@@ -150,10 +160,11 @@ class DesigoDataUpdateCoordinator(DataUpdateCoordinator[list[t.DataSeries]]):
         )
 
     async def _async_update_data(self) -> list[t.DataSeries]:
+        logger.info(f'Entities 1: {[entity.entity_id for entity in self.entities]}')
         # On startup we fetch the full history of the data. On subsequent runs we only fetch the
         # last few days (the server default).
         url = self.url
-        if not all(entity.first_fetch_complete for entity in self.entities):
+        if not self.first_fetch_complete:
             url = util.add_query_to_url(url, {'start': '2000-01-01'})
 
         self.logger.info(f'Fetch history from {url}')
@@ -162,7 +173,10 @@ class DesigoDataUpdateCoordinator(DataUpdateCoordinator[list[t.DataSeries]]):
         raw_data = response.json()
         data = self.parse_data(raw_data)
 
+        logger.info(f'Entities 2: {[entity.entity_id for entity in self.entities]}')
         await self._insert_statistics(data)
+
+        self.first_fetch_complete = True
 
         return data
 
@@ -267,8 +281,6 @@ class DesigoDataUpdateCoordinator(DataUpdateCoordinator[list[t.DataSeries]]):
                     f'Inserting statistics for {statistic_id}: {statistics[-1]}'
                 )
                 _async_import_statistics(self.hass, metadata, statistics)
-
-            entity.first_fetch_complete = True
 
     def create_statistic_data(
         self, data_point: t.GroupedDataPoint, has_sum: bool
