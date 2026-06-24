@@ -31,11 +31,12 @@ logger = logging.getLogger(__name__)
 ICON = 'mdi:heat-pump'
 SCAN_INTERVAL = timedelta(minutes=1)
 
+
 async def async_setup_platform(
     hass: HomeAssistant,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
-    discovery_info: DiscoveryInfoType | None=None,
+    discovery_info: DiscoveryInfoType | None = None,
 ) -> None:
     # This adheres to schema.DOMAIN_SCHEMA, but I don't know how to get the type from a voluptuous
     # schema
@@ -62,10 +63,12 @@ async def async_setup_platform(
     async_add_entities(entities, True)
 
 
-class DesigoCoordinatorEntity(SensorEntity, CoordinatorEntity['DesigoDataUpdateCoordinator']):  # type: ignore
+class DesigoCoordinatorEntity(
+    SensorEntity, CoordinatorEntity['DesigoDataUpdateCoordinator']
+):  # type: ignore
     data_series_config: t.DataSeriesConfig
 
-    first_fetch_complete=False
+    first_fetch_complete = False
 
     def __init__(
         self,
@@ -82,10 +85,9 @@ class DesigoCoordinatorEntity(SensorEntity, CoordinatorEntity['DesigoDataUpdateC
             icon=data_series_config.icon,
             native_unit_of_measurement=data_series_config.unit_of_measurement,
         )
-        self._attr_unique_id = f"{t.DOMAIN}_{self.data_series_config.key}"
+        self._attr_unique_id = f'{t.DOMAIN}_{self.data_series_config.key}'
 
         self.coordinator.add_entity(self)
-
 
     @property
     def native_value(self) -> StateType:
@@ -100,7 +102,6 @@ class DesigoDataUpdateCoordinator(DataUpdateCoordinator[list[t.DataSeries]]):
     username: str
     password: str
 
-
     def __init__(
         self,
         hass: HomeAssistant,
@@ -109,10 +110,7 @@ class DesigoDataUpdateCoordinator(DataUpdateCoordinator[list[t.DataSeries]]):
         password: str,
     ):
         super().__init__(
-            hass,
-            logger,
-            name=f'Desigo',
-            update_interval=timedelta(hours=1)
+            hass, logger, name=f'Desigo', update_interval=timedelta(hours=1)
         )
 
         self.async_client = create_async_httpx_client(self.hass)
@@ -122,10 +120,8 @@ class DesigoDataUpdateCoordinator(DataUpdateCoordinator[list[t.DataSeries]]):
         self.username = username
         self.password = password
 
-
     def add_entity(self, entity: DesigoCoordinatorEntity) -> None:
         self.entities.append(entity)
-
 
     def get_native_value(self, entity: DesigoCoordinatorEntity) -> StateType:
         try:
@@ -134,11 +130,10 @@ class DesigoDataUpdateCoordinator(DataUpdateCoordinator[list[t.DataSeries]]):
         except StopIteration:
             return None
 
-
     def get_data_series(
         self,
         entity: DesigoCoordinatorEntity,
-        data: list[t.DataSeries] | None=None,
+        data: list[t.DataSeries] | None = None,
     ) -> t.DataSeries:
         if data is None:
             data = self.data
@@ -153,15 +148,12 @@ class DesigoDataUpdateCoordinator(DataUpdateCoordinator[list[t.DataSeries]]):
             )
         )
 
-
     async def _async_update_data(self) -> list[t.DataSeries]:
         # On startup we fetch the full history of the data. On subsequent runs we only fetch the
         # last few days (the server default).
         url = self.url
         if not all(entity.first_fetch_complete for entity in self.entities):
-            url = util.add_query_to_url(url, {
-                'start': '2000-01-01'
-            })
+            url = util.add_query_to_url(url, {'start': '2000-01-01'})
 
         self.logger.info(f'Fetch history from {url}')
         auth = httpx.BasicAuth(self.username, self.password)
@@ -173,14 +165,9 @@ class DesigoDataUpdateCoordinator(DataUpdateCoordinator[list[t.DataSeries]]):
 
         return data
 
-
     def parse_data(self, raw_data: list) -> list[t.DataSeries]:
-        data = [
-            self.parse_data_series(raw_data_series)
-            for raw_data_series in raw_data
-        ]
+        data = [self.parse_data_series(raw_data_series) for raw_data_series in raw_data]
         return data
-
 
     def parse_data_series(self, raw_data_series: dict) -> t.DataSeries:
         data = [
@@ -194,7 +181,6 @@ class DesigoDataUpdateCoordinator(DataUpdateCoordinator[list[t.DataSeries]]):
         data_series = t.DataSeries(**kwargs)
         return data_series
 
-
     async def _insert_statistics(self, data: list[t.DataSeries]):
         for entity in self.entities:
             # On the first run of this method, our entities do not seem to have entity_ids yet.
@@ -207,8 +193,7 @@ class DesigoDataUpdateCoordinator(DataUpdateCoordinator[list[t.DataSeries]]):
                 data_series = self.get_data_series(entity, data)
             except StopIteration:
                 self.logger.warning(
-                    'Failed to find data series "{} - {}" in server response'
-                    .format(
+                    'Failed to find data series "{} - {}" in server response'.format(
                         entity.data_series_config.series_group,
                         entity.data_series_config.series_name,
                     )
@@ -233,23 +218,34 @@ class DesigoDataUpdateCoordinator(DataUpdateCoordinator[list[t.DataSeries]]):
             grouped_data: list[t.GroupedDataPoint] = []
             now = dt.utcnow()
             for timestamp, value in data_series.data:
-                truncated_timestamp = timestamp.replace(minute=0, second=0, microsecond=0)
+                truncated_timestamp = timestamp.replace(
+                    minute=0, second=0, microsecond=0
+                )
                 # Don't insert statistics for the past hour, this messes with HA's built-in
                 # statistics calculation, which assumes that these statistics won't exist yet.
                 if now - truncated_timestamp < timedelta(hours=1):
                     continue
 
-                if len(grouped_data) == 0 or truncated_timestamp != grouped_data[-1]['timestamp']:
-                    grouped_data.append({
-                        'timestamp': truncated_timestamp,
-                        'min_value': value,
-                        'max_value': value,
-                        'sum_of_values': 0,
-                        'num_values': 0,
-                        'last_value': 0,
-                    })
-                grouped_data[-1]['min_value'] = min(grouped_data[-1]['min_value'], value)
-                grouped_data[-1]['max_value'] = max(grouped_data[-1]['max_value'], value)
+                if (
+                    len(grouped_data) == 0
+                    or truncated_timestamp != grouped_data[-1]['timestamp']
+                ):
+                    grouped_data.append(
+                        {
+                            'timestamp': truncated_timestamp,
+                            'min_value': value,
+                            'max_value': value,
+                            'sum_of_values': 0,
+                            'num_values': 0,
+                            'last_value': 0,
+                        }
+                    )
+                grouped_data[-1]['min_value'] = min(
+                    grouped_data[-1]['min_value'], value
+                )
+                grouped_data[-1]['max_value'] = max(
+                    grouped_data[-1]['max_value'], value
+                )
                 grouped_data[-1]['num_values'] += 1
                 grouped_data[-1]['sum_of_values'] += value
                 grouped_data[-1]['last_value'] = value
@@ -260,19 +256,22 @@ class DesigoDataUpdateCoordinator(DataUpdateCoordinator[list[t.DataSeries]]):
             ]
 
             if len(statistics) > 0:
-                logger.info(f'Inserting statistics for {statistic_id}: {statistics[-1]}')
+                logger.info(
+                    f'Inserting statistics for {statistic_id}: {statistics[-1]}'
+                )
                 _async_import_statistics(self.hass, metadata, statistics)
 
             entity.first_fetch_complete = True
 
-
-    def create_statistic_data(self, data_point: t.GroupedDataPoint, has_sum: bool) -> StatisticData:
+    def create_statistic_data(
+        self, data_point: t.GroupedDataPoint, has_sum: bool
+    ) -> StatisticData:
         statistic_data = StatisticData(
             start=data_point['timestamp'],
             state=data_point['last_value'],
             min=data_point['min_value'],
             max=data_point['max_value'],
-            mean=data_point['sum_of_values'] / data_point['num_values']
+            mean=data_point['sum_of_values'] / data_point['num_values'],
         )
         if has_sum:
             statistic_data['sum'] = data_point['last_value']
