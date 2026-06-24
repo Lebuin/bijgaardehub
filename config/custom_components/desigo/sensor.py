@@ -96,7 +96,7 @@ class DesigoCoordinatorEntity(
 
 class DesigoDataUpdateCoordinator(DataUpdateCoordinator[list[t.DataSeries]]):
     async_client: httpx.AsyncClient
-    entities: list[DesigoCoordinatorEntity] = []
+    entities: list[DesigoCoordinatorEntity]
 
     url: str
     username: str
@@ -110,10 +110,11 @@ class DesigoDataUpdateCoordinator(DataUpdateCoordinator[list[t.DataSeries]]):
         password: str,
     ):
         super().__init__(
-            hass, logger, name=f'Desigo', update_interval=timedelta(hours=1)
+            hass, logger, name='Desigo', update_interval=timedelta(hours=1)
         )
 
         self.async_client = create_async_httpx_client(self.hass)
+        self.entities = []
         self.data = []
 
         self.url = url
